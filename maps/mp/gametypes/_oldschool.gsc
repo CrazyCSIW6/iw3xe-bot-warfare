@@ -255,8 +255,6 @@ trackPickup( pickup, id )
 	if ( isDefined( pickup.script_delay ) )
 		respawnTime = pickup.script_delay;
 	
-	pickup thread bots_watchPickup( isWeapon, trig );
-	
 	while(1)
 	{
 		//pickup thread spinPickup();
@@ -590,22 +588,5 @@ hadWeaponBeforePickingUp( newWeapon )
 			return true;
 	}
 	return false;
-}
-
-bots_watchPickup( isWeapon, trig )
-{
-	self endon( "death" );
-	if ( isDefined( trig ) )
-		trig endon( "death" );
-		
-	for ( ;; )
-	{
-		self waittill( "bot_pickup", player );
-		
-		if ( isWeapon )
-			self notify( "trigger", player );
-		else
-			trig notify( "trigger", player );
-	}
 }
 

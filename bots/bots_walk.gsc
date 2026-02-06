@@ -771,22 +771,19 @@ bots_doOldSchoolPickup(pickup)
 	
 	if (distance(self.origin, pickup.origin) <= level.bots_objNear)
 	{
-		pickup notify("bot_pickup", self);
+		if (pickup.os_type == "weapon")
+		{
+			pickup notify("trigger", self);
+		}
+		else if (pickup.os_type == "perk")
+		{
+			pickup.os_trigger notify("trigger", self);
+		}
+		
 		wait 0.5; // Give it a moment to process the pickup
 	}
 	
-	self.bots_os_pickup_cooldown = pickup;
-	self thread bots_clear_os_pickup_cooldown();
-	
 	self.bots_objDoing = "none";
-}
-
-bots_clear_os_pickup_cooldown()
-{
-	self endon("death");
-	self endon("bot_reset");
-	wait 10;
-	self.bots_os_pickup_cooldown = undefined;
 }
 
 bots_doDeathLoc()

@@ -943,9 +943,6 @@ bots_getOldSchoolPickupWeight(pickup)
 {
 	if (!isDefined(pickup))
 		return -10000;
-	
-	if (isDefined(self.bots_os_pickup_cooldown) && self.bots_os_pickup_cooldown == pickup)
-		return -10000;
 
 	weight = 0;
 	
