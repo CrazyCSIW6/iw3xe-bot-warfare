@@ -86,8 +86,29 @@ bots_declareDvars()
 	if(getDvar("bots_team_mode") == "")
 		setDvar("bots_team_mode", 0);//counts just bots when 1
 	
-	if(getDvar("bots_skill") == "")
-		setDvar("bots_skill", 0);//0 is random, 1 is easy 7 is hard, 8 is custom, 9 is completely random
+	// holy yanderedev...
+	// this isnt good practice
+	// but honestly, it works, so its good enough for me :)
+	if (level.rankedMatch)
+	{
+		if (level.oldschool)
+		setDvar("bots_skill", 6);
+		else if (level.hardcoreMode)
+		setDvar("bots_skill", 5);
+		else if (level.teamBased)
+		setDvar("bots_skill", 4);
+		else setDvar("bots_skill", 3);
+	}
+	// this is kinda arbitrary, but the idea is private matches might be used for practice so we notch down the diff by 1
+	// there is a much better way of doing this but writing it this way means i dont have to use my brain!!!
+	else if (level.onlineGame)
+	{
+		if (level.teamBased)
+		setDvar("bots_skill", 3);
+		else setDvar("bots_skill", 2);
+	}
+	else setDvar("bots_skill", 2); // offline players SUCK!!! (im sorry offline players)
+	
 	if(getDvar("bots_skill_axis_hard") == "")
 		setDvar("bots_skill_axis_hard", 0);//amount of hard bots on axis team
 	if(getDvar("bots_skill_axis_med") == "")
