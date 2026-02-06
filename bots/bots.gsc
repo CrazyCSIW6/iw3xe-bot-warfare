@@ -26,9 +26,6 @@ init()
 		thread bots_onUAVAllies();
 		thread bots_onUAVAxis();
 		thread bots_fixGamemodes();
-		
-		if (level.oldschool)
-			thread bots_setupOldSchoolPickups();
 }
 
 bots_fixGamemodes()

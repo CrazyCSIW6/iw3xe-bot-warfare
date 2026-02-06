@@ -711,7 +711,6 @@ bots_getObj()
 				if(isDefined(pickup))
 				{
 					self bots_doOldSchoolPickup(pickup);
-					bots_waitFrame();
 					continue;
 				}
 			}
@@ -768,20 +767,6 @@ bots_doOldSchoolPickup(pickup)
 	self endon("bot_obj_override");
 	
 	self bots_goToLoc(pickup.origin, ::bots_isDefined, pickup, 0, 0);
-	
-	if (distance(self.origin, pickup.origin) <= level.bots_objNear)
-	{
-		if (pickup.os_type == "weapon")
-		{
-			pickup notify("trigger", self);
-		}
-		else if (pickup.os_type == "perk")
-		{
-			pickup.os_trigger notify("trigger", self);
-		}
-		
-		wait 0.5; // Give it a moment to process the pickup
-	}
 	
 	self.bots_objDoing = "none";
 }

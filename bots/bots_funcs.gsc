@@ -898,38 +898,6 @@ bots_bombPlanted( destroyedObj, player )
 	maps\mp\gametypes\sd::sd_endGame( game["attackers"], game["strings"]["target_destroyed"] );
 }
 
-bots_setupOldSchoolPickups()
-{
-	level.bots_os_pickups = [];
-	
-	// Wait for _oldschool.gsc to finish its init if it hasn't
-	while(!isDefined(level.validPerks))
-		wait 0.05;
-	
-	pickups = getentarray("oldschool_pickup", "targetname");
-	for(i=0; i<pickups.size; i++)
-	{
-		p = pickups[i];
-		if (issubstr(p.classname, "weapon_"))
-		{
-			p.os_type = "weapon";
-			p.os_item = p maps\mp\gametypes\_weapons::getItemWeaponName();
-		}
-		else if (p.classname == "script_model")
-		{
-			p.os_type = "perk";
-			p.os_item = p.script_noteworthy;
-			p.os_trigger = getent(p.target, "targetname");
-		}
-		else
-		{
-			continue;
-		}
-		
-		level.bots_os_pickups[level.bots_os_pickups.size] = p;
-	}
-}
-
 bots_isOldSchoolStartingWeapon(weap)
 {
 	if(!isDefined(weap))
@@ -941,9 +909,6 @@ bots_isOldSchoolStartingWeapon(weap)
 
 bots_getOldSchoolPickupWeight(pickup)
 {
-	if (!isDefined(pickup))
-		return -10000;
-
 	weight = 0;
 	
 	dis = distance(self.origin, pickup.origin);
@@ -951,9 +916,9 @@ bots_getOldSchoolPickupWeight(pickup)
 	// Distance weight (closer is better, max 200 points)
 	weight += (10000 - dis) / 50;
 	
-	if (pickup.os_type == "weapon")
+	if (issubstr(pickup.classname, "weapon_"))
 	{
-		weapName = pickup.os_item;
+		weapName = pickup maps\mp\gametypes\_weapons::getItemWeaponName();
 		
 		// Weapon quality weight (general preference)
 		if (issubstr(weapName, "m16") || issubstr(weapName, "ak47") || issubstr(weapName, "m40a3") || issubstr(weapName, "remington700"))
@@ -971,10 +936,10 @@ bots_getOldSchoolPickupWeight(pickup)
 		else if (self bots_getAmmoCount(weapName) < 30)
 			weight += 80; // Need ammo for a weapon we already have
 	}
-	else if (pickup.os_type == "perk")
+	else if (pickup.classname == "script_model")
 	{
 		// Perk weight
-		if (isDefined(pickup.os_item) && !self hasPerk(pickup.os_item))
+		if (isDefined(pickup.script_noteworthy) && !self hasPerk(pickup.script_noteworthy))
 			weight += 120; // Perks are high priority if not held
 		else
 			weight = -5000; // Don't need it
@@ -985,24 +950,17 @@ bots_getOldSchoolPickupWeight(pickup)
 
 bots_getBestOldSchoolPickup()
 {
-	if (!isDefined(level.bots_os_pickups))
-		return undefined;
-
+	pickups = getentarray("oldschool_pickup", "targetname");
 	bestWeight = -2000;
 	bestPickup = undefined;
 	
-	for(i=0; i<level.bots_os_pickups.size; i++)
+	for(i=0; i<pickups.size; i++)
 	{
-		p = level.bots_os_pickups[i];
-		
-		if (!isDefined(p))
-			continue;
-
-		weight = self bots_getOldSchoolPickupWeight(p);
+		weight = self bots_getOldSchoolPickupWeight(pickups[i]);
 		if (weight > bestWeight)
 		{
 			bestWeight = weight;
-			bestPickup = p;
+			bestPickup = pickups[i];
 		}
 	}
 	
