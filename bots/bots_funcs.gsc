@@ -897,3 +897,72 @@ bots_bombPlanted( destroyedObj, player )
 	
 	maps\mp\gametypes\sd::sd_endGame( game["attackers"], game["strings"]["target_destroyed"] );
 }
+
+bots_isOldSchoolStartingWeapon(weap)
+{
+	if(!isDefined(weap))
+		return false;
+	
+	shortName = strtok(weap, "_")[0];
+	return (shortName == "skorpion" || shortName == "beretta" || shortName == "m9");
+}
+
+bots_getOldSchoolPickupWeight(pickup)
+{
+	weight = 0;
+	
+	dis = distance(self.origin, pickup.origin);
+	
+	// Distance weight (closer is better, max 200 points)
+	weight += (10000 - dis) / 50;
+	
+	if (issubstr(pickup.classname, "weapon_"))
+	{
+		weapName = pickup maps\mp\gametypes\_weapons::getItemWeaponName();
+		
+		// Weapon quality weight (general preference)
+		if (issubstr(weapName, "m16") || issubstr(weapName, "ak47") || issubstr(weapName, "m40a3") || issubstr(weapName, "remington700"))
+			weight += 150;
+		else if (issubstr(weapName, "mp5") || issubstr(weapName, "p90") || issubstr(weapName, "ak74u"))
+			weight += 100;
+		else if (issubstr(weapName, "rpg"))
+			weight += 50;
+		
+		// Ammo and Upgrade weight
+		if (self bots_isOldSchoolStartingWeapon(self bots_getCurrentWeapon()))
+			weight += 300; // REALLY want a better weapon if we only have starting pistol
+		else if (!self hasWeapon(weapName))
+			weight += 50; // New weapons are generally good
+		else if (self bots_getAmmoCount(weapName) < 30)
+			weight += 80; // Need ammo for a weapon we already have
+	}
+	else if (pickup.classname == "script_model")
+	{
+		// Perk weight
+		if (isDefined(pickup.script_noteworthy) && !self hasPerk(pickup.script_noteworthy))
+			weight += 120; // Perks are high priority if not held
+		else
+			weight = -5000; // Don't need it
+	}
+	
+	return weight;
+}
+
+bots_getBestOldSchoolPickup()
+{
+	pickups = getentarray("oldschool_pickup", "targetname");
+	bestWeight = -2000;
+	bestPickup = undefined;
+	
+	for(i=0; i<pickups.size; i++)
+	{
+		weight = self bots_getOldSchoolPickupWeight(pickups[i]);
+		if (weight > bestWeight)
+		{
+			bestWeight = weight;
+			bestPickup = pickups[i];
+		}
+	}
+	
+	return bestPickup;
+}
