@@ -705,16 +705,6 @@ bots_getObj()
 	{
 		if(self bots_shouldGetObj())
 		{
-			if(level.oldschool)
-			{
-				pickup = self bots_getBestOldSchoolPickup();
-				if(isDefined(pickup))
-				{
-					self bots_doOldSchoolPickup(pickup);
-					continue;
-				}
-			}
-			
 			self bots_randomObjs();
 			
 			if(level.waypointCount && self bots_shouldGetObj())
@@ -757,18 +747,6 @@ bots_doTargetObj(target)
 	self bots_goToLoc(target getOrigin(), ::bots_nullFunc, 0, 0, 0);
 	self.bots_objDoing = "none";
 	self thread bots\talk::bots_playerWent(target);
-}
-
-bots_doOldSchoolPickup(pickup)
-{
-	self.bots_objDoing = "pickup";
-	
-	self notify("bot_obj_override");
-	self endon("bot_obj_override");
-	
-	self bots_goToLoc(pickup.origin, ::bots_isDefined, pickup, 0, 0);
-	
-	self.bots_objDoing = "none";
 }
 
 bots_doDeathLoc()

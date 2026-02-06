@@ -212,11 +212,9 @@ bots_declareDvars()
 	
 	level.bots_shouldObj = [];
 	level.bots_shouldObj["none"] = true;
-	level.bots_shouldObj["pickup"] = true;
 	
 	level.bots_doingNothing = [];
 	level.bots_doingNothing["none"] = true;
-	level.bots_doingNothing["pickup"] = true;
 	
 	level.bots_isClimbing = [];
 	level.bots_isClimbing["climb"] = true;
