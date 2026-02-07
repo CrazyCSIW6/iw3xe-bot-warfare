@@ -2,8 +2,11 @@
 
 init()
 {
-	if(getDvar("bots_main") == "")
+	if (level.rankedMatch)
 		setDvar("bots_main", true);
+	else if (!level.onlineGame)
+		setDvar("bots_main", true);
+	else setDvar ("bots_main", false);
 	if(getDvar("bots_main_debug") == "")
 		setDvar("bots_main_debug", false);
 	if(getDvar("bots_main_fun") == "")
@@ -89,26 +92,30 @@ bots_declareDvars()
 	// holy yanderedev...
 	// this isnt good practice
 	// but honestly, it works, so its good enough for me :)
-	if (level.rankedMatch)
+	if (level.console)
 	{
-		if (level.oldschool)
-		setDvar("bots_skill", 6);
-		else if (level.hardcoreMode)
-		setDvar("bots_skill", 5);
-		else if (level.teamBased)
-		setDvar("bots_skill", 4);
-		else setDvar("bots_skill", 3);
+		if (level.rankedMatch)
+		{
+			if (level.oldschool)
+			setDvar("bots_skill", 6);
+			else if (level.hardcoreMode)
+			setDvar("bots_skill", 5);
+			else if (level.teamBased)
+			setDvar("bots_skill", 4);
+			else setDvar("bots_skill", 3);
+		}
+		// this is kinda arbitrary, but the idea is private matches might be used for practice so we notch down the diff by 1
+		// there is a much better way of doing this but writing it this way means i dont have to use my brain!!!
+		else if (level.onlineGame)
+		{
+			if (level.teamBased)
+			setDvar("bots_skill", 3);
+			else setDvar("bots_skill", 2);
+		}
+		else setDvar("bots_skill", 2); // offline players SUCK!!! (im sorry offline players)
 	}
-	// this is kinda arbitrary, but the idea is private matches might be used for practice so we notch down the diff by 1
-	// there is a much better way of doing this but writing it this way means i dont have to use my brain!!!
-	else if (level.onlineGame)
-	{
-		if (level.teamBased)
-		setDvar("bots_skill", 3);
-		else setDvar("bots_skill", 2);
-	}
-	else setDvar("bots_skill", 2); // offline players SUCK!!! (im sorry offline players)
-	
+	else setDvar("bots_skill", 0); // yet to decide what diffs should be for PC players, so just make it random
+
 	if(getDvar("bots_skill_axis_hard") == "")
 		setDvar("bots_skill_axis_hard", 0);//amount of hard bots on axis team
 	if(getDvar("bots_skill_axis_med") == "")

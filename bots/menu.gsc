@@ -67,10 +67,6 @@ doGreetings()
 	self endon ( "disconnect" );
 	self endon ( "bots_kill_menu" );
 	wait 1;
-	self iPrintln("Welcome to Bot Warfare "+self.name+"!");
-	wait 5;
-	if(getDvarInt("bots_main_menu"))
-		self iPrintln("Press [{+frag}] + [{+smoke}] to open menu!");
 }
 
 watchPlayerOpenMenu()
