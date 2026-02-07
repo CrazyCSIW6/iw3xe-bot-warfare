@@ -336,7 +336,7 @@ bots_watchBots()
 	if (level.rankedMatch)
 		fillAmount = 18;
 	else if (!level.onlineGame)
-		fillAmount = 12;
+		fillAmount = 10;
 	else
 		fillAmount = 0;
 
