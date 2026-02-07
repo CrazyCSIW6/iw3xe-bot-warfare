@@ -780,7 +780,15 @@ bots_watchPlayers()
 			}
 			else
 			{
-				if(self.pers["bots"]["skill"]["base"])
+				if (level.splitScreen)
+				{
+					target = self bots_getGoToPlayer();
+					if(isDefined(target))
+					{
+						self bots_doTargetObj(target);
+					}
+				}
+				else if(self.pers["bots"]["skill"]["base"])
 				{
 					if(self.pers["bots"]["trait"]["killsOverObj"])
 						target = self bots_getGoToPlayer();
@@ -830,6 +838,38 @@ bots_restartWalk()
 
 bots_getGoToPlayer()
 {
+	if (level.splitScreen)
+	{
+		closest = undefined;
+		closestDist = 999999;
+		
+		for(i = 0; i < level.players.size; i++)
+		{
+			player = level.players[i];
+			
+			if(!isDefined(player.pers["team"]))
+				continue;
+			if(!level.bots_varTargetHost && player.pers["bots_isHost"])
+				continue;
+			if(player == self)
+				continue;
+			if(self.pers["team"] == player.pers["team"] && level.teamBased)
+				continue;
+			if(player.sessionstate != "playing")
+				continue;
+			if(!isAlive(player))
+				continue;
+				
+			dist = distance(self.origin, player.origin);
+			if (dist < closestDist)
+			{
+				closestDist = dist;
+				closest = player;
+			}
+		}
+		return closest;
+	}
+
 	if(!level.bots_varTarget.size)
 	{
 		if(isDefined(self.bots_realSeen))
