@@ -269,8 +269,10 @@ bots_updateVars()
 			else
 				level.bots_varSkill = 3;
 		}
-		else
+		else if (!level.splitScreen)
 			level.bots_varSkill = 2;
+		else
+			level.bots_varSkill = 1;
 	}
 	else
 		level.bots_varSkill = 0;
