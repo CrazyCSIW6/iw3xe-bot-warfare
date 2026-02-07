@@ -2,11 +2,8 @@
 
 init()
 {
-	if (level.rankedMatch)
+	if(getDvar("bots_main") == "")
 		setDvar("bots_main", true);
-	else if (!level.onlineGame)
-		setDvar("bots_main", true);
-	else setDvar ("bots_main", false);
 	if(getDvar("bots_main_debug") == "")
 		setDvar("bots_main_debug", false);
 	if(getDvar("bots_main_fun") == "")
@@ -88,34 +85,8 @@ bots_declareDvars()
 		setDvar("bots_team_force", false);//force bots on team
 	if(getDvar("bots_team_mode") == "")
 		setDvar("bots_team_mode", 0);//counts just bots when 1
-	
-	// holy yanderedev...
-	// this isnt good practice
-	// but honestly, it works, so its good enough for me :)
-	if (level.console)
-	{
-		if (level.rankedMatch)
-		{
-			if (level.oldschool)
-			setDvar("bots_skill", 6);
-			else if (level.hardcoreMode)
-			setDvar("bots_skill", 5);
-			else if (level.teamBased)
-			setDvar("bots_skill", 4);
-			else setDvar("bots_skill", 3);
-		}
-		// this is kinda arbitrary, but the idea is private matches might be used for practice so we notch down the diff by 1
-		// there is a much better way of doing this but writing it this way means i dont have to use my brain!!!
-		else if (level.onlineGame)
-		{
-			if (level.teamBased)
-			setDvar("bots_skill", 3);
-			else setDvar("bots_skill", 2);
-		}
-		else setDvar("bots_skill", 2); // offline players SUCK!!! (im sorry offline players)
-	}
-	else setDvar("bots_skill", 0); // yet to decide what diffs should be for PC players, so just make it random
-
+	/*if(getDvar("bots_skill") == "")
+		setDvar("bots_skill", 0);
 	if(getDvar("bots_skill_axis_hard") == "")
 		setDvar("bots_skill_axis_hard", 0);//amount of hard bots on axis team
 	if(getDvar("bots_skill_axis_med") == "")
@@ -123,7 +94,7 @@ bots_declareDvars()
 	if(getDvar("bots_skill_allies_hard") == "")
 		setDvar("bots_skill_allies_hard", 0);
 	if(getDvar("bots_skill_allies_med") == "")
-		setDvar("bots_skill_allies_med", 0);
+		setDvar("bots_skill_allies_med", 0);*/
 	
 	if(getDvar("bots_loadout") == "")
 		setDvar("bots_loadout", "level");//loadout mode
@@ -283,7 +254,26 @@ bots_declareDvars()
 
 bots_updateVars()
 {
-	level.bots_varSkill = getDvarInt("bots_skill");
+	// this isnt good practice
+	// but honestly, it works, so its good enough for me :)
+	if (level.console)
+	{
+		if (level.rankedMatch)
+		{
+			if (level.oldschool)
+				level.bots_varSkill = 6;
+			else if (level.hardcoreMode)
+				level.bots_varSkill = 5;
+			else if (level.teamBased)
+				level.bots_varSkill = 4;
+			else
+				level.bots_varSkill = 3;
+		}
+		else
+			level.bots_varSkill = 2;
+	}
+	else
+		level.bots_varSkill = 0;
 	
 	level.bots_varLoadout = getDvar("bots_loadout");
 	level.bots_varLoadoutKS = getDvarInt("bots_loadout_killstreak");
@@ -327,7 +317,7 @@ bots_watch()
 	for(;;)
 	{
 		wait 1.5;
-		initTestClients(1);
+		// initTestClients(1); // Removed: moved to bots_watchBots to respect fillAmount
 		bots_waitFrame();
 		
 		level bots_updateVars();
@@ -343,10 +333,14 @@ bots_watchBots()
 	fillSpec = getDVarInt("bots_manage_fill_spec");
 	fillMode = getDVarInt("bots_manage_fill_mode");
 	
-	if(fillMode == 2 || fillMode == 3)
-		setDvar("bots_manage_fill", bots_getGoodMapAmount());
-	
-	fillAmount = getDvarInt("bots_manage_fill");
+	if (level.rankedMatch)
+		fillAmount = 18;
+	else if (!level.onlineGame)
+		fillAmount = 11;
+	else
+		fillAmount = 0;
+
+	setDvar("bots_manage_fill", fillAmount);
 	
 	botsTeam = getDVar("bots_team");
 	doForceTeam = getDvarInt("bots_team_force");
@@ -479,7 +473,7 @@ bots_watchBots()
 		amount = bots;
 	
 	if(amount < fillAmount)
-		setDvar("bots_manage_add", 1);
+		initTestClients(1);
 	else if(amount > fillAmount && getDvarInt("bots_manage_fill_kick"))
 	{
 		tempBot = bots_getRandomBot();
@@ -1665,7 +1659,6 @@ bots_onPlayerConnect()
 			
 			game["bots_firstHost"] = true;
 		}
-		
 		player thread bots\menu::playerConnected();
 		
 		player thread bots_watchFireGun();
