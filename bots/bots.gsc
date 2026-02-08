@@ -256,26 +256,33 @@ bots_updateVars()
 {
 	// this isnt good practice
 	// but honestly, it works, so its good enough for me :)
+
+/*
+	// THIS IS FOR PARSEC ONLY -- remember to change this back for prod
+	level.bots_varSkill = 1;
+*/
+
 	if (level.console)
 	{
 		if (level.rankedMatch)
 		{
 			if (level.oldschool)
-				level.bots_varSkill = 6;
+				level.bots_varSkill = 7;
 			else if (level.hardcoreMode)
 				level.bots_varSkill = 5;
 			else if (level.teamBased)
 				level.bots_varSkill = 4;
 			else
-				level.bots_varSkill = 3;
+				level.bots_varSkill = 4; // just in case we want to change how ffa difficulty is in the future
 		}
 		else if (!level.splitScreen)
-			level.bots_varSkill = 2;
+			level.bots_varSkill = 3; // offlines a bit easier just in case someones using it for practice
 		else
-			level.bots_varSkill = 1;
+			level.bots_varSkill = 1; // splitscreen players dont give a fuck about bots. should we even have them there at all?
 	}
 	else
 		level.bots_varSkill = 0;
+
 	
 	level.bots_varLoadout = getDvar("bots_loadout");
 	level.bots_varLoadoutKS = getDvarInt("bots_loadout_killstreak");
@@ -335,11 +342,11 @@ bots_watchBots()
 	fillSpec = getDVarInt("bots_manage_fill_spec");
 	fillMode = getDVarInt("bots_manage_fill_mode");
 	
-	if (level.rankedMatch)
+	if (level.rankedMatch) // this is a public online game, fill all empty slots with bots (bots will automatically leave to make room for real players)
 		fillAmount = 18;
-	else if (!level.onlineGame)
-		fillAmount = 10;
-	else
+	else if (!level.onlineGame && !level.splitScreen) // this is a LAN or system link game, fill with up to 8 bots to keep things interesting
+		fillAmount = 8;
+	else // this is either an online private game or a split screen game, these players likely don't want bots so we don't spawn any
 		fillAmount = 0;
 
 	setDvar("bots_manage_fill", fillAmount);
