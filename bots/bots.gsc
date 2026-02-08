@@ -120,9 +120,9 @@ bots_declareDvars()
 		setDvar("bots_loadout_juggernaut", true);//
 	
 	if(getDvar("bots_play_rageQuit") == "")
-		setDvar("bots_play_rageQuit", false);//will ragequit if chance
+		setDvar("bots_play_rageQuit", true);//will ragequit if chance
 	if(getDvar("bots_play_talk") == "")
-		setDvar("bots_play_talk", 1.0);//talk rate scaler
+		setDvar("bots_play_talk", 2.0);//talk rate scaler
 	if(getDvar("bots_play_run") == "")
 		setDvar("bots_play_run", true);//bots chance to run
 	if(getDvar("bots_play_tdks") == "")

@@ -485,7 +485,7 @@ bots_setupClass()
 					self.pers["bots"]["trait"]["vengeful"] = 2;
 				break;
 				case 2: // The Tank
-				case 4: // The Mega Prick
+				case 4: // The Nigger
 					self.pers["bots"]["class"]["primary"] = "m1014_grip_mp";
 					self.pers["bots"]["class"]["secondary"] = "deserteaglegold_mp";
 					self.pers["bots"]["class"]["perk2"] = "specialty_armorvest";
