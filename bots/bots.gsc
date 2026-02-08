@@ -632,7 +632,15 @@ bots_addedBot()
 	if( pres < 0 )
 	{
 		if(pres != -2 || !isDefined(host) || level.console && level.onlineGame) // only console versions of cod4 had prestige mode
-			self setStat( int(tableLookup( "mp/playerStatsTable.csv", 1, "plevel", 0 )), randomint(11) );
+		{
+			r = randomint(100);
+			p = 0;
+			if (r < 50) p = 0;
+			else if (r < 60) p = 1;
+			else if (r < 80) p = randomintrange(2, 10);
+			else p = 10;
+			self setStat( int(tableLookup( "mp/playerStatsTable.csv", 1, "plevel", 0 )), p );
+		}
 		else
 			self setStat( int(tableLookup( "mp/playerStatsTable.csv", 1, "plevel", 0 )), host getStat( int(tableLookup( "mp/playerStatsTable.csv", 1, "plevel", 0 )) ) );
 	}
