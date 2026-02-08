@@ -701,6 +701,8 @@ bots_doGNadeTarget(target)
 	
 	rand = int(self.pers["bots"]["trait"]["nade"]*2);
 	if(rand < 9)
+		rand = 9;
+	
 	rnd = bots_randomInt(rand);
 
 	if(self.pers["bots"]["trait"]["asshole"])
