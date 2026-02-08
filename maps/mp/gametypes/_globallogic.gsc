@@ -1628,20 +1628,20 @@ updateMatchBonusScores( winner )
 			if ( winningTeam == "tie" )
 			{
 				playerScore = int( (winnerScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "tie", playerScore );
-				player.matchBonus = playerScore;
+				player thread giveMatchBonus( "tie", playerScore * level.xpScale );
+				player.matchBonus = playerScore * level.xpScale;
 			}
 			else if ( isDefined( player.pers["team"] ) && player.pers["team"] == winningTeam )
 			{
 				playerScore = int( (winnerScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "win", playerScore );
-				player.matchBonus = playerScore;
+				player thread giveMatchBonus( "win", playerScore * level.xpScale );
+				player.matchBonus = playerScore * level.xpScale;
 			}
 			else if ( isDefined(player.pers["team"] ) && player.pers["team"] == losingTeam )
 			{
 				playerScore = int( (loserScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "loss", playerScore );
-				player.matchBonus = playerScore;
+				player thread giveMatchBonus( "loss", playerScore * level.xpScale );
+				player.matchBonus = playerScore * level.xpScale;
 			}
 		}
 	}
@@ -1682,14 +1682,14 @@ updateMatchBonusScores( winner )
 			if ( isWinner )
 			{
 				playerScore = int( (winnerScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "win", playerScore );
-				player.matchBonus = playerScore;
+				player thread giveMatchBonus( "win", playerScore * level.xpScale );
+				player.matchBonus = playerScore * level.xpScale;
 			}
 			else
 			{
 				playerScore = int( (loserScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "loss", playerScore );
-				player.matchBonus = playerScore;
+				player thread giveMatchBonus( "loss", playerScore * level.xpScale );
+				player.matchBonus = playerScore * level.xpScale;
 			}
 		}
 	}
