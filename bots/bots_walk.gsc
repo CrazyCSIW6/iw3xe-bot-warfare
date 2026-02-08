@@ -705,6 +705,13 @@ bots_getObj()
 	{
 		if(self bots_shouldGetObj())
 		{
+			if(self.pers["bots"]["trait"]["asshole"] && self.pers["bots"]["trait"]["asshole_type"] == 4)
+			{
+				self bots_goCamp(randomint(2), 60, true);
+				bots_waitFrame();
+				continue;
+			}
+			
 			self bots_randomObjs();
 			
 			if(level.waypointCount && self bots_shouldGetObj())

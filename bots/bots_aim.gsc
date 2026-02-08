@@ -701,9 +701,18 @@ bots_doGNadeTarget(target)
 	
 	rand = int(self.pers["bots"]["trait"]["nade"]*2);
 	if(rand < 9)
-		rand = 9;
-	
 	rnd = bots_randomInt(rand);
+
+	if(self.pers["bots"]["trait"]["asshole"])
+	{
+		if(self.pers["bots"]["trait"]["asshole_type"] == 1) // Tuber
+			rnd = 3;
+		else if(self.pers["bots"]["trait"]["asshole_type"] == 3) // Bomberman
+		{
+			if(distance(self.origin, target.origin) < 500 || !isDefined(self.bots_lastSeen[target getEntityNumber()]))
+				rnd = 6;
+		}
+	}
 	
 	switch(rnd)
 	{

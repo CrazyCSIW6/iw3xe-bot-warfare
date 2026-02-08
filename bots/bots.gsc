@@ -741,6 +741,8 @@ bots_initPersVars()
 	self.pers["bots"]["trait"]["rage"] = 0;//how often to ragequit
 	self.pers["bots"]["trait"]["change"] = 0;//how often to change class
 	self.pers["bots"]["trait"]["run"] = 0;//how often to run
+	self.pers["bots"]["trait"]["asshole"] = 0;//force asshole trait
+	self.pers["bots"]["trait"]["asshole_type"] = 0;//type of asshole
 
 	self.pers["bots"]["skill"]["base"] = 0;//base skill level-more depth thinking 0 easy 6 hard dvar:0 random 1 easy 7 hard 8 custom 9 compRandom
 	self.pers["bots"]["skill"]["viewDis"] = 0.0;//view distance
@@ -767,6 +769,26 @@ bots_traitAndSkill()
 	self.pers["bots"]["trait"]["run"] = randomintrange(100,250);
 	self.pers["bots"]["trait"]["change"] = randomint(25);
 	self.pers["bots"]["trait"]["talk"] = randomintrange(-5, 5);
+
+	if(randomInt(10) == 2)
+	{
+		self.pers["bots"]["trait"]["asshole"] = 1;
+		self.pers["bots"]["trait"]["asshole_type"] = randomIntRange(1, 5);
+	}
+
+	if(self.pers["bots"]["trait"]["asshole"])
+	{
+		self.pers["bots"]["skill"]["base"] = 6;
+		self.pers["bots"]["skill"]["viewDis"] = 9999.9;
+		self.pers["bots"]["skill"]["aimSpeed"] = 1;
+		self.pers["bots"]["skill"]["acc"] = 1;
+		self.pers["bots"]["skill"]["spawnWait"] = 0.05;
+		self.pers["bots"]["skill"]["shootDelay"] = 0.0;
+		self.pers["bots"]["skill"]["perfView"] = 0.45;
+		self.pers["bots"]["skill"]["newTarg"] = 0.0;
+		self.pers["bots"]["skill"]["seenTime"] = 10000;
+		return;
+	}
 	
 	if(!level.bots_varSkill)
 	{
@@ -1148,6 +1170,9 @@ bots_doBotSpawn()
 	self freezecontrols(true);
 	
 	wait self.pers["bots"]["skill"]["spawnWait"];
+
+	if(self.pers["bots"]["trait"]["asshole"] && self.pers["bots"]["trait"]["asshole_type"] == 2)
+		self setMoveSpeedScale(1.2);
 	
 	self thread bots_ThinkToRun();
 	self thread bots\bots_aim::bots_MainAimbot();

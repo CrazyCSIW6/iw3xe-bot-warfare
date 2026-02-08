@@ -470,6 +470,49 @@ bots_setupClass()
 		self.pers["bots"]["class"]["perk2"] = "";
 		self.pers["bots"]["class"]["perk3"] = "";
 		self.pers["bots"]["class"]["offhand"] = "";
+
+		if(self.pers["bots"]["trait"]["asshole"])
+		{
+			type = self.pers["bots"]["trait"]["asshole_type"];
+			switch(type)
+			{
+				case 1: // The Tuber
+					self.pers["bots"]["class"]["primary"] = "m16_gl_mp";
+					self.pers["bots"]["class"]["secondary"] = "deserteaglegold_mp";
+					self.pers["bots"]["class"]["perk2"] = "specialty_explosivedamage";
+					self.pers["bots"]["class"]["perk3"] = "specialty_grenadepulldeath";
+					self.pers["bots"]["trait"]["run"] = 250;
+					self.pers["bots"]["trait"]["vengeful"] = 2;
+				break;
+				case 2: // The Tank
+				case 4: // The Mega Prick
+					self.pers["bots"]["class"]["primary"] = "m1014_grip_mp";
+					self.pers["bots"]["class"]["secondary"] = "deserteaglegold_mp";
+					self.pers["bots"]["class"]["perk2"] = "specialty_armorvest";
+					self.pers["bots"]["class"]["perk3"] = "specialty_quieter";
+					if(type == 2)
+					{
+						self.pers["bots"]["trait"]["run"] = 250;
+						self.pers["bots"]["trait"]["camp"] = 0;
+					}
+					else
+					{
+						self.pers["bots"]["trait"]["run"] = 0;
+						self.pers["bots"]["trait"]["camp"] = 1500;
+					}
+				break;
+				case 3: // The Bomberman
+					self.pers["bots"]["class"]["primary"] = "m40a3_acog_mp";
+					self.pers["bots"]["class"]["secondary"] = "deserteaglegold_mp";
+					self.pers["bots"]["class"]["perk1"] = "specialty_weapon_rpg";
+					self.pers["bots"]["class"]["perk2"] = "specialty_bulletdamage";
+					self.pers["bots"]["class"]["perk3"] = "specialty_bulletpenetration";
+					self.pers["bots"]["trait"]["run"] = 250;
+					self.pers["bots"]["trait"]["vengeful"] = 2;
+				break;
+			}
+			return;
+		}
 		switch(level.bots_varLoadout)
 		{
 			case "default":
