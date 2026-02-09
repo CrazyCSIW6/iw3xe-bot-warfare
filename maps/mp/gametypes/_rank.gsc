@@ -6,7 +6,7 @@ init()
 {
 	level.scoreInfo = [];
 	level.xpScale = getDvarInt( "scr_xpscale" );
-
+	level.maxLevel = getDvarInt( "scr_maxlevel" );
 	level.rankTable = [];
 
 	precacheShader("white");
@@ -1059,8 +1059,28 @@ incRankXP( amount )
 	xp = self getRankXP();
 	newXp = (xp + amount);
 
-	if ( self.pers["rank"] == level.maxRank && newXp >= getRankInfoMaxXP( level.maxRank ) )
-		newXp = getRankInfoMaxXP( level.maxRank );
+	maxRankXP = getRankInfoMaxXP( level.maxRank );
+
+	if ( isDefined( level.maxLevel ) && level.maxLevel > 0 )
+	{
+		maxAllowedRank = level.maxRank;
+		for ( i = 0; i <= level.maxRank; i++ )
+		{
+			if ( getRankInfoLevel( i ) > level.maxLevel )
+				break;
+			
+			maxAllowedRank = i;
+		}
+		
+		maxRankXP = getRankInfoMaxXP( maxAllowedRank );
+		
+		// if this isn't the absolute max rank, we must stay below the next rank's XP
+		if ( maxAllowedRank < level.maxRank )
+			maxRankXP--;
+	}
+
+	if ( newXp > maxRankXP )
+		newXp = maxRankXP;
 
 	self.pers["rankxp"] = newXp;
 }
