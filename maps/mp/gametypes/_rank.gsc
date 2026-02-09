@@ -1098,14 +1098,14 @@ getMaxAllowedRank()
 	if ( !isDefined( level.maxLevel ) || level.maxLevel <= 0 )
 		return level.maxRank;
 	
-	maxAllowedRank = level.maxRank;
-	for ( i = 0; i <= level.maxRank; i++ )
-	{
-		if ( getRankInfoLevel( i ) > level.maxLevel )
-			break;
-		
-		maxAllowedRank = i;
-	}
+	// Level = RankId + 1, so RankId = Level - 1
+	maxAllowedRank = level.maxLevel - 1;
+	
+	// Clamp to valid range
+	if ( maxAllowedRank < 0 )
+		maxAllowedRank = 0;
+	if ( maxAllowedRank > level.maxRank )
+		maxAllowedRank = level.maxRank;
 	
 	return maxAllowedRank;
 }
