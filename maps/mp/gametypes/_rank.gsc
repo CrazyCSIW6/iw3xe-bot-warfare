@@ -227,6 +227,19 @@ onPlayerConnect()
 		level waittill( "connected", player );
 
 		player.pers["rankxp"] = player maps\mp\gametypes\_persistence::statGet( "rankxp" );
+		
+		// Clamp XP and rank if over the level cap
+		maxAllowedRank = getMaxAllowedRank();
+		maxAllowedXP = getRankInfoMaxXP( maxAllowedRank );
+		if ( maxAllowedRank < level.maxRank )
+			maxAllowedXP--;
+		
+		if ( player.pers["rankxp"] > maxAllowedXP )
+		{
+			player.pers["rankxp"] = maxAllowedXP;
+			player maps\mp\gametypes\_persistence::statSet( "rankxp", maxAllowedXP );
+		}
+		
 		rankId = player getRankForXp( player getRankXP() );
 		player.pers["rank"] = rankId;
 		player.pers["participation"] = 0;
@@ -1019,12 +1032,19 @@ getRankForXp( xpVal )
 	rankName = level.rankTable[rankId][1];
 	assert( isDefined( rankName ) );
 	
+	maxAllowedRank = getMaxAllowedRank();
+	
 	while ( isDefined( rankName ) && rankName != "" )
 	{
 		if ( xpVal < getRankInfoMinXP( rankId ) + getRankInfoXPAmt( rankId ) )
 			return rankId;
 
 		rankId++;
+		
+		// Enforce level cap
+		if ( rankId > maxAllowedRank )
+			return maxAllowedRank;
+		
 		if ( isDefined( level.rankTable[rankId] ) )
 			rankName = level.rankTable[rankId][1];
 		else
@@ -1059,30 +1079,35 @@ incRankXP( amount )
 	xp = self getRankXP();
 	newXp = (xp + amount);
 
-	maxRankXP = getRankInfoMaxXP( level.maxRank );
-
-	if ( isDefined( level.maxLevel ) && level.maxLevel > 0 )
-	{
-		maxAllowedRank = level.maxRank;
-		for ( i = 0; i <= level.maxRank; i++ )
-		{
-			if ( getRankInfoLevel( i ) > level.maxLevel )
-				break;
-			
-			maxAllowedRank = i;
-		}
-		
-		maxRankXP = getRankInfoMaxXP( maxAllowedRank );
-		
-		// if this isn't the absolute max rank, we must stay below the next rank's XP
-		if ( maxAllowedRank < level.maxRank )
-			maxRankXP--;
-	}
+	maxAllowedRank = getMaxAllowedRank();
+	maxRankXP = getRankInfoMaxXP( maxAllowedRank );
+	
+	// if this isn't the absolute max rank, we must stay below the next rank's XP
+	if ( maxAllowedRank < level.maxRank )
+		maxRankXP--;
 
 	if ( newXp > maxRankXP )
 		newXp = maxRankXP;
 
 	self.pers["rankxp"] = newXp;
+}
+
+// Returns the maximum allowed rank based on scr_maxlevel dvar
+getMaxAllowedRank()
+{
+	if ( !isDefined( level.maxLevel ) || level.maxLevel <= 0 )
+		return level.maxRank;
+	
+	maxAllowedRank = level.maxRank;
+	for ( i = 0; i <= level.maxRank; i++ )
+	{
+		if ( getRankInfoLevel( i ) > level.maxLevel )
+			break;
+		
+		maxAllowedRank = i;
+	}
+	
+	return maxAllowedRank;
 }
 
 syncXPStat()
