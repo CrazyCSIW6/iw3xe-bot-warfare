@@ -6,7 +6,7 @@ init()
 {
 	level.scoreInfo = [];
 	level.xpScale = getDvarInt( "scr_xpscale" );
-	level.maxLevel = getDvarInt( "scr_maxlevel" );
+	level.maxLevel = getDvarInt( "scr_retardlevel" );
 	level.rankTable = [];
 
 	precacheShader("white");
