@@ -114,7 +114,7 @@ processChallenge( baseName, progressInc )
 	if ( !isDefined( progressInc ) )
 		progressInc = 1;
 
-	progressInc *= 2;
+	progressInc *= 5;
 	
 	/#
 	if ( getDvarInt( "debug_challenges" ) )
