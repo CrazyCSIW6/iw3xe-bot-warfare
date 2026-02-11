@@ -478,7 +478,7 @@ bots_watchBots()
 		amount = bots;
 	
 	if(amount < fillAmount)
-		initTestClients(1);
+		initTestClients(fillAmount);
 	else if(amount > fillAmount && getDvarInt("bots_manage_fill_kick"))
 	{
 		tempBot = bots_getRandomBot();
