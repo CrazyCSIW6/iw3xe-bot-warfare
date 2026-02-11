@@ -5431,7 +5431,7 @@ processAssist( killedplayer )
 	if ( self.pers["team"] == killedplayer.pers["team"] )
 		return;
 	
-	self thread [[level.onXPEvent]]( "kill" );
+	self thread [[level.onXPEvent]]( "assist" );
 	self incPersStat( "assists", 1 );
 	self.assists = self getPersStat( "assists" );
 	
