@@ -419,6 +419,26 @@ giveRankXP( type, value )
 	if ( !isDefined( self.xpGains[type] ) )
 		self.xpGains[type] = 0;
 		
+
+	prestigeScale = 1.0;
+	if ( isDefined( self.pers["prestige"] ) )
+	{
+		switch ( self.pers["prestige"] )
+		{
+			case 1: prestigeScale = 1.2; break;
+			case 2: prestigeScale = 1.4; break;
+			case 3: prestigeScale = 1.6; break;
+			case 4: prestigeScale = 1.8; break;
+			case 5: prestigeScale = 2.0; break;
+			case 6: prestigeScale = 2.25; break;
+			case 7: prestigeScale = 2.5; break;
+			case 8: prestigeScale = 2.75; break;
+			case 9: prestigeScale = 3.0; break;
+			case 10: prestigeScale = 4.0; break;
+			default: prestigeScale = 1.0; break;
+		}
+	}
+
 	switch( type )
 	{
 		case "kill":
@@ -431,7 +451,7 @@ giveRankXP( type, value )
 		case "plant":
 		case "defuse":
 		case "assault":
-			value = int( value * level.xpScale );
+			value = int( value * level.xpScale * prestigeScale );
 			break;
 		default:
 			break;
