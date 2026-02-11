@@ -1628,20 +1628,20 @@ updateMatchBonusScores( winner )
 			if ( winningTeam == "tie" )
 			{
 				playerScore = int( (winnerScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "tie", playerScore * level.xpScale );
-				player.matchBonus = playerScore * level.xpScale;
+				player thread giveMatchBonus( "tie", playerScore );
+				player.matchBonus = playerScore;
 			}
 			else if ( isDefined( player.pers["team"] ) && player.pers["team"] == winningTeam )
 			{
 				playerScore = int( (winnerScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "win", playerScore * level.xpScale );
-				player.matchBonus = playerScore * level.xpScale;
+				player thread giveMatchBonus( "win", playerScore );
+				player.matchBonus = playerScore;
 			}
 			else if ( isDefined(player.pers["team"] ) && player.pers["team"] == losingTeam )
 			{
 				playerScore = int( (loserScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "loss", playerScore * level.xpScale );
-				player.matchBonus = playerScore * level.xpScale;
+				player thread giveMatchBonus( "loss", playerScore );
+				player.matchBonus = playerScore;
 			}
 		}
 	}
@@ -1682,14 +1682,14 @@ updateMatchBonusScores( winner )
 			if ( isWinner )
 			{
 				playerScore = int( (winnerScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "win", playerScore * level.xpScale );
-				player.matchBonus = playerScore * level.xpScale;
+				player thread giveMatchBonus( "win", playerScore );
+				player.matchBonus = playerScore;
 			}
 			else
 			{
 				playerScore = int( (loserScale * ((gameLength/60) * spm)) * (player.timePlayed["total"] / gameLength) );
-				player thread giveMatchBonus( "loss", playerScore * level.xpScale );
-				player.matchBonus = playerScore * level.xpScale;
+				player thread giveMatchBonus( "loss", playerScore );
+				player.matchBonus = playerScore;
 			}
 		}
 	}
@@ -1702,6 +1702,13 @@ giveMatchBonus( scoreType, score )
 
 	level waittill ( "give_match_bonus" );
 	
+	// xpscale should ALWAYS be defined. if it isnt a catastrophic failure has occurred
+	score = int( score * level.xpScale );
+
+	// may not be defined if game didnt call to display match bonus in the UI
+	if ( isDefined( self.matchBonus ) )
+		self.matchBonus = int( self.matchBonus * level.xpScale );
+
 	self maps\mp\gametypes\_rank::giveRankXP( scoreType, score );
 	logXPGains();
 	
@@ -5424,7 +5431,7 @@ processAssist( killedplayer )
 	if ( self.pers["team"] == killedplayer.pers["team"] )
 		return;
 	
-	self thread [[level.onXPEvent]]( "assist" );
+	self thread [[level.onXPEvent]]( "kill" );
 	self incPersStat( "assists", 1 );
 	self.assists = self getPersStat( "assists" );
 	
