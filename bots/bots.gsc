@@ -367,7 +367,7 @@ bots_watchBots()
 	
 	bots = 0;
 	players = 0;
-	bots_waitFrame();
+	wait 0.05;
 	
 	for(i = 0; i < level.players.size; i++)
 	{
@@ -470,7 +470,7 @@ bots_watchBots()
 		
 		bots = result;
 	}
-	bots_waitFrame();
+	wait 0.05;
 	
 	if(fillMode == 0 || fillMode == 2)
 		amount = bots + players;
@@ -485,7 +485,7 @@ bots_watchBots()
 		if(isDefined(tempBot))
 			kick( tempBot getEntityNumber() );
 	}
-	bots_waitFrame();
+	wait 0.05;
 	
 	if(botsTeam == "custom")
 	{
@@ -578,7 +578,7 @@ bots_watchBots()
 			}
 		}
 	}
-	bots_waitFrame();
+	wait 0.05;
 }
 
 bots_resetBots()
