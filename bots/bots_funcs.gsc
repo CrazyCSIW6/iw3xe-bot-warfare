@@ -199,7 +199,7 @@ bots_changeToTeam(team)
 	while(!isdefined(self.pers["team"]))
 		wait .05;
 	
-	wait 0.05;
+	wait 0.10;
 	self notify("menuresponse", game["menu_team"], team);
 	if(!level.oldschool)
 	{
@@ -302,7 +302,7 @@ bots_setWeaponAmmoStock(what, to)
 
 bots_waitFrame()
 {
-	wait 0.05;
+	wait 0.10;
 }
 
 bots_setspawnweapon(weap)

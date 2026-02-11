@@ -77,7 +77,7 @@ watchPlayerOpenMenu()
 	for(;;)
 	{
 		while(!self FragButtonPressed() || !self SecondaryOffhandButtonPressed())
-			wait 0.05;
+			wait 0.10;
 		
 		if(!self.menuOpen)
 		{
@@ -103,7 +103,7 @@ watchPlayerOpenMenu()
 		}
 		
 		while(self FragButtonPressed() && self SecondaryOffhandButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 
@@ -115,7 +115,7 @@ MenuSelect()
 	for(;;)
 	{
 		while(!self MeleeButtonPressed())
-			wait 0.05;
+			wait 0.10;
 		
 		if(self.MenuOpen && getdvarint("bots_main_menu"))
 		{
@@ -127,7 +127,7 @@ MenuSelect()
 		}
 		
 		while(self MeleeButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 
@@ -139,7 +139,7 @@ LeftMenu()
 	for(;;)
 	{
 		while(!self AttackButtonPressed())
-			wait 0.05;
+			wait 0.10;
 		
 		if(self.MenuOpen)
 		{
@@ -166,7 +166,7 @@ LeftMenu()
 		}
 		
 		while(self AttackButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 
@@ -178,7 +178,7 @@ RightMenu()
 	for(;;)
 	{
 		while(!self AdsButtonPressed())
-			wait 0.05;
+			wait 0.10;
 		
 		if(self.MenuOpen)
 		{
@@ -205,7 +205,7 @@ RightMenu()
 		}
 		
 		while(self AdsButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 
@@ -392,7 +392,7 @@ ShowOptionOn(variable)
 			}
 		}
 		
-		wait 0.05;
+		wait 0.10;
 	}
 }
 
@@ -2017,7 +2017,7 @@ oUfo()
 	
 	for(;;)
 	{
-		wait 0.05;
+		wait 0.10;
 		
 		if(self MeleeButtonPressed())
 		{
@@ -2067,14 +2067,14 @@ xpCheat()
 	self iPrintln("Make sure another player or bot is playing.");
 	
 	while(level.players.size < 2)
-		wait 0.05;
+		wait 0.10;
 	
 	self iPrintln("Giving XP...");
 	
 	while(self.pers["rank"] < 54)
 	{
 	    self thread maps\mp\gametypes\_rank::giveRankXP( "kill", 100 );
-	    wait 0.05;
+	    wait 0.10;
 	}
 	
 	self iPrintln("Now make sure to play until the end of the game.");
@@ -2236,7 +2236,7 @@ doGod()
 
     while ( getDvarInt("bots_main_fun_god") )
     {
-        wait 0.05;
+        wait 0.10;
         if ( self.health < self.maxhealth )
             self.health = self.maxhealth;
     }
@@ -2253,7 +2253,7 @@ neverFreeze()
 	for(;;)
 	{
 		self freezeControls(false);
-		wait 0.05;
+		wait 0.10;
 	}
 }
 
@@ -2277,7 +2277,7 @@ infiniteAmmo()
 			if(what == 1 || what == 2)
 				self SetWeaponAmmoClip(weapon, 999);
 		}
-		wait 0.05;
+		wait 0.10;
 	}
 }
 
@@ -2287,7 +2287,7 @@ unfairAimbot()
 	self endon( "death" );
 	for(;;)
 	{
-		wait 0.05;
+		wait 0.10;
 		
 		while( self adsButtonPressed() )
 		{
@@ -2319,7 +2319,7 @@ unfairAimbot()
 					target thread [[level.callbackPlayerDamage]]( self, self, 999999, 8, "MOD_HEAD_SHOT", self getCurrentWeapon(), (0,0,0), (0,0,0), "head", 0 );
 			}
 			
-			wait 0.05;
+			wait 0.10;
 		}
 	}
 }
@@ -2400,14 +2400,14 @@ aimbutt()
 						}
 					}
 				}
-				wait 0.05;
+				wait 0.10;
 			}
 		}
 		else
 		{
 			self notify("aim_overlap");
 		}
-		wait 0.05;
+		wait 0.10;
 	}
 }
 

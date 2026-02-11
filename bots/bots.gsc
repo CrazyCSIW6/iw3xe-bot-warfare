@@ -39,7 +39,7 @@ bots_fixGamemodes()
 			break;
 		}
 		
-		wait 0.05;
+		wait 0.10;
 	}
 }
 
@@ -257,11 +257,12 @@ bots_updateVars()
 	// this isnt good practice
 	// but honestly, it works, so its good enough for me :)
 
-/*
+
 	// THIS IS FOR PARSEC ONLY -- remember to change this back for prod
 	level.bots_varSkill = 1;
-*/
 
+
+ /*
 	if (level.console)
 	{
 		if (level.rankedMatch)
@@ -282,7 +283,7 @@ bots_updateVars()
 	}
 	else
 		level.bots_varSkill = 0;
-
+ */
 	
 	level.bots_varLoadout = getDvar("bots_loadout");
 	level.bots_varLoadoutKS = getDvarInt("bots_loadout_killstreak");
@@ -325,15 +326,10 @@ bots_watch()
 {
 	for(;;)
 	{
-		wait 1.5;
-		// initTestClients(1); // Removed: moved to bots_watchBots to respect fillAmount
-		bots_waitFrame();
-		
+		wait 0.25;
 		level bots_updateVars();
-		bots_waitFrame();
-		
+		wait 0.25;
 		level bots_watchBots();
-		bots_waitFrame();
 	}
 }
 

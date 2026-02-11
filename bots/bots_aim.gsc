@@ -74,7 +74,7 @@ bots_MainAimbot()
 		}
 		if(i > 18)
 			i = 0;
-		bots_waitFrame();//wait 0.05//which is 20fps
+		bots_waitFrame();//wait 0.10//which is 10fps
 	}
 }
 
@@ -1402,6 +1402,6 @@ bots_setPlayerAngesReal(Angle,Steps)
 		newAngle=(myAngle[0]+X,myAngle[1]+Y,0);
 		self setPlayerAngles(newAngle);
 		myAngle=self getPlayerAngles();
-		wait 0.05;
+		wait 0.10;
 	}
 }

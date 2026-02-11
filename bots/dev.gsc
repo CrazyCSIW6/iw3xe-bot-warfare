@@ -90,7 +90,7 @@ debug()
 	
 	for(;;)
 	{
-		wait 0.05;
+		wait 0.10;
 		
 		if(isDefined(self.command))
 			continue;
@@ -139,7 +139,7 @@ AddWaypoints()
 	for(;;)
 	{
 		while(!self SecondaryOffhandButtonPressed() || isDefined(self.command))
-			wait 0.05;
+			wait 0.10;
 		
 		pos = self getOrigin();
 		self.command = true;
@@ -156,7 +156,7 @@ AddWaypoints()
 		self.command = undefined;
 		
 		while(self SecondaryOffhandButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 
@@ -167,7 +167,7 @@ linkWaypoints()
 	for(;;)
 	{
 		while(!self MeleeButtonPressed() || isDefined(self.command))
-			wait 0.05;
+			wait 0.10;
 		
 		self.command = true;
 		
@@ -183,7 +183,7 @@ linkWaypoints()
 		self.command = undefined;
 		
 		while(self MeleeButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 
@@ -194,7 +194,7 @@ deleteWaypoints()
 	for(;;)
 	{
 		while(!self fragButtonPressed() || isDefined(self.command))
-			wait 0.05;
+			wait 0.10;
 		
 		self.command = true;
 		
@@ -213,7 +213,7 @@ deleteWaypoints()
 		self.command = undefined;
 		
 		while(self fragButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 
@@ -225,7 +225,7 @@ watchSaveWaypointsCommand()
 	for(;;)
 	{
 		while(!self useButtonPressed() || !self attackButtonPressed() || isDefined(self.command))
-			wait 0.05;
+			wait 0.10;
 		
 		self.command = true;
 		
@@ -274,7 +274,7 @@ watchSaveWaypointsCommand()
 		self.command = undefined;
 		
 		while(self useButtonPressed() && self attackButtonPressed())
-			wait 0.05;
+			wait 0.10;
 	}
 }
 

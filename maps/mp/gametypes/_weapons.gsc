@@ -884,7 +884,7 @@ c4Activate()
 
 	self waittillNotMoving();
 	
-	wait 0.05;
+	wait 0.10;
 	
 	self notify("activated");
 	self.activated = true;
