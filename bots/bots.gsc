@@ -258,8 +258,8 @@ bots_updateVars()
 	// but honestly, it works, so its good enough for me :)
 
 
-	// THIS IS FOR PARSEC ONLY -- remember to change this back for prod
-	level.bots_varSkill = 1;
+	// THIS IS FOR PARSEC ONLY -- remember to change this back for prod!
+	level.bots_varSkill = 2;
 
 
  /*
