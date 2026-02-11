@@ -166,7 +166,7 @@ processChallenge( baseName, progressInc )
 		self setStat( level.challengeInfo[refString]["statid"], level.challengeInfo[refString]["maxval"] );
 
 		self setStat( level.challengeInfo[refString]["stateid"], missionStatus );
-		self maps\mp\gametypes\_rank::giveRankXP( "challenge", int( level.challengeInfo[refString]["reward"] * 5 ) );
+		self maps\mp\gametypes\_rank::giveRankXP( "challenge", int( level.challengeInfo[refString]["reward"] * 2.5 ) );
 		
 		if ( level.challengeInfo[refString]["tier"] < 6 && missionStatus == 255 )
 		{
